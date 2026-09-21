@@ -1,0 +1,21 @@
+# PT backup directory
+.pt/
+
+# Ignore Sublime Text project files
+*.sublime-*
+
+# Added entries (1 items)
+*__pycache__/
+
+# Added entries (2 items)
+*.0
+*.1
+
+# Added entries (1 items)
+test.ini
+
+# Added entries (1 items)
+pydebugger/
+
+# Added entries (1 items)
+*.egg-info/
