@@ -293,7 +293,8 @@ def serve(host='0.0.0.0', port=50001, on_top=False):
     """Start UDP debug server"""
     END_MARKER = b'<END>'
     # #logger.debug(f"END_MARKER: {END_MARKER}, TYPE: {type(END_MARKER)}")
-    on_top = str(os.getenv('DISPLAY_ON_TOP', str(on_top))).lower() in ['true', '1', 'yes']
+    on_top = str(os.getenv('DISPLAY_ON_TOP', str(on_top))).lower() in ('true', '1', 'yes')
+    print(f"on_top: {on_top}")
     # #logger.debug(f"ON_TOP: {on_top}, TYPE: {type(on_top)}")
 
     def receive_message(server_socket):
@@ -329,7 +330,7 @@ def serve(host='0.0.0.0', port=50001, on_top=False):
 
             if msg:
                 if CONFIG and hasattr(CONFIG, 'get_config'):
-                    if str(CONFIG.get_config('display', 'raise')).lower() in ['1', 'true', 'yes']:
+                    if str(CONFIG.get_config('display', 'raise', on_top)).lower() in ('1', 'true', 'yes') or on_top:
                         showme_no_delay()
 
                 if hasattr(msg, 'decode'):
@@ -1183,7 +1184,7 @@ def usage():
     )
 
     # === Global Command ===
-    parser.add_argument('-a', '--on-top', action='store_true', help='Always On Top')
+    parser.add_argument('-a', '--on-top', action='store_true', help='Always On Top', dest="ON_TOP")
     parser.add_argument('-c', '--cleanup', action='store', help='CleanUp File')
     parser.add_argument('-v', '--version', action='store_true', help='Get version number')
 
@@ -1193,7 +1194,7 @@ def usage():
     serve_parser = subparsers.add_parser('serve', help='Run debug message UDP server', formatter_class=CustomRichHelpFormatter)
     serve_parser.add_argument('--host', default='0.0.0.0', help='Host to bind, default: 0.0.0.0')
     serve_parser.add_argument('--port', type=int, default=50001, help='Port to bind, default: 50001')
-    serve_parser.add_argument('--on-top', action='store_true', help='Always On Top')
+    serve_parser.add_argument('-a', '--on-top', action='store_true', help='Always On Top')
 
     # === Subcommand: log ===
     log_parser = subparsers.add_parser('log', help='Database log inspection', formatter_class=CustomRichHelpFormatter)
@@ -1336,7 +1337,7 @@ def main():
         manager.display_results(results, args.dry_run, action)
 
     elif args.COMMAND == 'serve':
-        serve(args.host, args.port, args.on_top)
+        serve(args.host, args.port, args.on_top or args.ON_TOP)
 
     elif args.COMMAND == 'log':
         if args.db_log:
