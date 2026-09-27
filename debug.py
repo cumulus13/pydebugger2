@@ -223,9 +223,10 @@ def get_debug_server(ENV='DEBUG_SERVER'):
     """Parse DEBUG_SERVER environment variable"""
     DEBUG_SERVER = []
     debug_server_str = os.getenv(ENV, '')
+    
     # #logger.critical(f"debug_server_str: {debug_server_str}")
 
-    if debug_server_str and not str(debug_server_str).lower() in ("1", "true", "false"):
+    if debug_server_str and not str(debug_server_str).lower() in ("1", "true", "ok", "yes", "on"):
         # Parse comma-separated list
         data = [i.strip() for i in re.split(r",|;|\||\.", debug_server_str)]
         items = [str(item).strip() for item in data]
@@ -241,7 +242,8 @@ def get_debug_server(ENV='DEBUG_SERVER'):
                 else:
                     DEBUG_SERVER.append('127.0.0.1:50001')
             DEBUG_SERVER = list(set(DEBUG_SERVER))
-
+    elif debug_server_str and str(debug_server_str).lower() in ("1", "true", "ok", "yes", "on"):
+        DEBUG_SERVER = ['127.0.0.1:50001']
     # else:
         # DEBUG_SERVER = ['127.0.0.1:50001']
 
@@ -1001,6 +1003,7 @@ class debugger(object):
                 if defname in frame_globals and inspect.isfunction(frame_globals[defname]):  # type: ignore
                     get_source(frame_globals[defname], lexer, theme, ln, tab_size, width, word_wrap)  # type: ignore
 
+        # print(f"get_debug_server(): {get_debug_server()}")
         if get_debug_server():
             if clear:
                 formatlist = 'cls'
@@ -1086,7 +1089,10 @@ def debug(*args, defname=None, debug=None, host=None, port=None, tag='debug',
     debug_enabled = str(os.getenv("DEBUG", DEBUG)).lower() in ('1', 'true', 'ok', 'yes', 'on')
     # print(f"debug_enabled: {debug_enabled}")
     debugme(debug_enabled = debug_enabled)
-    
+    # print(f"debug: {debug}")
+    # print(f"debug_enabled: {debug_enabled}")
+    # print(f"get_debug_server(): {get_debug_server()}")
+
     if not debug and not debug_enabled and not get_debug_server():
         return None
 
