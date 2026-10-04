@@ -14,7 +14,10 @@ import argparse
 import os
 import sys
 if sys.platform == 'win32':
-    import win32api  # type: ignore
+    try:
+        import win32api  # type: ignore
+    except:
+        pass
 import traceback
 from pathlib import Path
 from datetime import datetime
