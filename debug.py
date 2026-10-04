@@ -1086,7 +1086,7 @@ def debugme(**kwargs):
 def debug(*args, defname=None, debug=None, host=None, port=None, tag='debug', 
     print_function_parameters=False, source=False, simple=False, show=True, **kwargs):
     """Main debug function"""
-    #print(f"os.getenv('DEBUG') X: {os.getenv('DEBUG')}")
+    # print(f"os.getenv('DEBUG') X: {os.getenv('DEBUG')}")
     debug_enabled = str(os.getenv("DEBUG", DEBUG)).lower() in ('1', 'true', 'ok', 'yes', 'on')
     # print(f"debug_enabled: {debug_enabled}")
     debugme(debug_enabled = debug_enabled)

@@ -65,7 +65,8 @@ setup(
         'configparser',
         'sqlalchemy',
         'rich',
-        'licface'
+        'licface',
+        'pywin32; sys_platform == "win32"'
     ],
     entry_points = {
          "console_scripts": [
