@@ -72,7 +72,7 @@ else:
 #print(f"os.getenv('DEBUG'): {os.getenv('DEBUG')}")
 # Parse exceptions list from environment
 exceptions_str = os.getenv('LOG_EXCEPTIONS', 'socket,gntplib,sqlalchemy')
-exceptions = [e.strip() for e in exceptions_str.split(',')] if exceptions_str else []
+exceptions = [e.strip() for e in exceptions_str] if exceptions_str else []
 
 # Setup logging
 # import logging
